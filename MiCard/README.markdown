@@ -18,6 +18,5 @@ Concepts learnt:
 8. Padding, margins and EdgeInsets in layouts
 9. Horizontal Rulers through Dividers
 
-![Application screenshot]()
 <img src="https://github.com/ArcherN9/LearningFlutter/raw/master/MiCard/images/screenshot-1.png" 
 alt="Application Screenshot" width="308" height="558" border="10" />
