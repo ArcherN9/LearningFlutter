@@ -20,4 +20,4 @@ Concepts learnt:
 
 ![Application screenshot]()
 <img src="https://github.com/ArcherN9/LearningFlutter/raw/master/MiCard/images/screenshot-1.png" 
-alt="Application Screenshot" width="558" height="308" border="10" />
+alt="Application Screenshot" width="308" height="558" border="10" />
