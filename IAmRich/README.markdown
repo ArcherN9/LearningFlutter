@@ -13,5 +13,5 @@ Concepts learnt:
 3. Inclusion of image assets to the project
 4. Addition of application icons
 
-<img src="https://github.com/ArcherN9/LearningFlutter/raw/master/IAmRich/images/screenshot-1.png" 
+<img src="https://github.com/ArcherN9/LearningFlutter/raw/master/IAmRich/images/Screenshot-1.png"
 alt="Application Screenshot" width="308" height="558" border="10" />
