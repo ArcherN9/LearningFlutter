@@ -16,5 +16,5 @@ Concepts learnt:
 6. The Expanded Widget
 7. Importing external libraries
 
-<img src="https://github.com/ArcherN9/LearningFlutter/raw/master/Dice/images/Screenshot-1.png"
+<img src="https://github.com/ArcherN9/LearningFlutter/raw/master/Dice/images/Screenshot-1.png
 alt="Application Screenshot" width="308" height="558" border="10" />
