@@ -15,5 +15,5 @@ Concepts Revisited:
 5. String interpolation
 6. Random number generator
 
-<img src="https://raw.githubusercontent.com/ArcherN9/LearningFlutter/master/EightBall/images/Screenshot%20-%201.png
+<img src="https://raw.githubusercontent.com/ArcherN9/LearningFlutter/master/EightBall/images/Screenshot%20-%201.png"
 alt="Application Screenshot" width="308" height="558" border="10" />
