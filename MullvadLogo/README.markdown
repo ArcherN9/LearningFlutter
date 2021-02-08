@@ -1,4 +1,4 @@
-# My Card Application
+# Mullvad Logo application
 
 [![MIT Licenced](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Platform](https://img.shields.io/badge/Platform-Flutter-yellow.svg)](https://flutter.io)
