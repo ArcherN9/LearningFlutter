@@ -40,7 +40,12 @@ class BottomAnswerSection extends StatefulWidget {
 
 class _BottomAnswerSection extends State<BottomAnswerSection> {
   // List<String> lsResponseOptions = List.empty(growable: true);
-  List<String> lsResponseOptions = ['Accept', 'Deny'];
+  List<String> lsResponseOptions = [
+    'Accept',
+    'Deny',
+    'Third Option',
+    'Fourth Option'
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
