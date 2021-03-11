@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AnswerTile extends StatefulWidget {
-  // The background color of the response button
-  Color intBackgroundColor;
-
   // The String that is displayed on the Buttons
   List<String> lsAnswerTitle;
 
