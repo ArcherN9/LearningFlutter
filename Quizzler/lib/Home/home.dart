@@ -28,7 +28,8 @@ class TopQuestionSection extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: QuestionTile.builder(
-          'This is a sample text which keeps on growing like trees all round the year, all through the village but never ceases to exist.'),
+          'This is a sample text which keeps on growing like trees all round the year, all through the village but never ceases to exist.',
+          'Sample Category'),
     );
   }
 }
