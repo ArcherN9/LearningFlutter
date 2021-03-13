@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:Quizzler/Widgets/QuestionTile.dart';
 import 'package:Quizzler/Widgets/AnswerTile.dart';
+import 'package:Quizzler/Widgets/DividerTile.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -10,11 +11,16 @@ class Home extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-          flex: 1,
+            flex: 1,
+            child: DividerTile(
+              intNumberOfQuestions: 20,
+            )),
+        Expanded(
+          flex: 5,
           child: TopQuestionSection(),
         ),
         Expanded(
-          flex: 1,
+          flex: 5,
           child: BottomAnswerSection(),
         ),
       ],
@@ -34,14 +40,9 @@ class TopQuestionSection extends StatelessWidget {
   }
 }
 
-class BottomAnswerSection extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _BottomAnswerSection();
-}
-
-class _BottomAnswerSection extends State<BottomAnswerSection> {
+class BottomAnswerSection extends StatelessWidget {
   // List<String> lsResponseOptions = List.empty(growable: true);
-  List<String> lsResponseOptions = [
+  final List<String> lsResponseOptions = [
     'Accept',
     'Deny',
     'Third Option',
