@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:Quizzler/Home/home.dart';
+
+import 'package:Quizzler/Network/QuizzlerNetwork.dart';
+import 'package:Quizzler/Categories/CategoryList.dart';
+
+import 'package:provider/provider.dart';
+
+import 'Network/CategoryService.dart';
 
 // This is the starting position of the application.
 // The main method is auto executed by the system. It serves as the entry point
@@ -15,7 +21,17 @@ class QuizzlerApplication extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: SafeArea(
-          child: Home(),
+          child: MultiProvider(
+            providers: [
+              Provider<CategoryService>(
+                create: (_) =>
+                    CategoryService.create(QuizzlerNetwork().chopperClient),
+              ),
+            ],
+            // dispose: (_, CategoryService categoryService) =>
+            //     categoryService.dispose(),
+            child: CategoryList(),
+          ),
         ),
       ),
     );
