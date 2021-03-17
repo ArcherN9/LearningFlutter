@@ -1,10 +1,36 @@
+import 'package:flutter/material.dart';
+
 import 'package:Quizzler/Categories/Models/CategoryListModel.dart';
 import 'package:Quizzler/Network/CategoryService.dart';
-import 'package:flutter/material.dart';
+
+import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:chopper/chopper.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
+import 'package:pixabay_picker/pixabay_picker.dart';
+import 'package:pixabay_picker/model/pixabay_media.dart';
+
+/// A generic color pallette for the application to use
+/// wherever necessary. Identified use cases so far:
+/// 1. Display empty colored boxes randomly on network images
+/// yet to be loaded
+List<int> colorPalette = [
+  0xFFB71C1C, // Red
+  0xFF880E4F, // Crimson
+  0xFF4A148C, // Purple
+  0xFF311B92, // Deep Purple
+  0xFF1A237E, // Indigo
+  0xFF0D47A1, // Blue
+  0xFF004D40, // Teal
+];
 
 class CategoryList extends StatefulWidget {
+  PixabayPicker pixabayPicker = PixabayPicker(
+    apiKey: '20729047-b2f81354c2f3c9f1fe5f90076',
+    language: "en",
+  );
+
   @override
   State<StatefulWidget> createState() => _CategoryList();
 }
@@ -60,15 +86,72 @@ class _CategoryList extends State<CategoryList> {
       color: Colors.white,
       elevation: 4.0,
       margin: EdgeInsets.only(left: 15, right: 15, top: 7.5, bottom: 7.5),
+      borderOnForeground: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
+        ),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Image.network(
-              'https://cdn.motor1.com/images/mgl/mrz1e/s3/coolest-cars-feature.jpg'),
+          getCategoryImage(categoryName: categoryModel.categoryName),
           getCategoryTile(categoryModel: categoryModel),
         ],
       ),
+    );
+  }
+
+  /// Communicates with the Pixabay API service and retrieves images
+  /// with the keyword categoryName (as retrieved from OpenTrivia)
+  /// Uses a CachedNetworkImage plugin to display the images
+  Widget getCategoryImage({String categoryName}) {
+    String queryString = categoryName.contains(':')
+        ? categoryName.split(':')[1].trim()
+        : categoryName;
+    var pixabayFuture = widget.pixabayPicker.api.requestImagesWithKeyword(
+      keyword: queryString,
+      resultsPerPage: 35,
+    );
+
+    return FutureBuilder(
+        future: pixabayFuture,
+        builder: (buildContext, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              PixabayResponse apiResponse = snapshot.data as PixabayResponse;
+              if (snapshot.hasData && apiResponse.total >= 1) {
+                return CachedNetworkImage(
+                  imageUrl: apiResponse.hits[getRandomNumber(
+                    upperLimit: apiResponse.hits.length,
+                  )]
+                      .getDownloadLink(),
+                  filterQuality: FilterQuality.medium,
+                  fit: BoxFit.fitWidth,
+                  height: 180,
+                  placeholder: (context, url) {
+                    return getEmptyContainer();
+                  },
+                );
+              } else {
+                return getEmptyContainer();
+              }
+              break;
+
+            default:
+              return getEmptyContainer();
+          }
+        });
+  }
+
+  /// Returns an empty container with a randomized color
+  /// to serve as a placeholder while images are being
+  /// updated.
+  Container getEmptyContainer() {
+    return Container(
+      color: Color(getRandomColor()),
+      height: 180,
     );
   }
 
@@ -111,5 +194,21 @@ class _CategoryList extends State<CategoryList> {
   // 25 DP margins on the left & right
   EdgeInsets getQuestionTileMargins() {
     return EdgeInsets.only(left: 25, right: 25);
+  }
+
+  /// A method that utilises a Random number generator constrained by
+  /// the length of the color palette. The random number is used to lookup
+  /// a color against the palette defined up above
+  int getRandomColor() {
+    // Use the random number generator and pick a random color
+    int randomColor = colorPalette[Random().nextInt(colorPalette.length)];
+    // Return the random color
+    return randomColor;
+  }
+
+  /// Accepts the upper limit of a random number to be generated
+  /// and generates a number between 0 - upper limit
+  int getRandomNumber({int upperLimit}) {
+    return Random().nextInt(upperLimit);
   }
 }
