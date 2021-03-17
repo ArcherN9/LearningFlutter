@@ -22,6 +22,7 @@ environment:
 
 dependencies:
   chopper: ^3.0.2
+  json_annotation: ^3.1.0
   provider: 4.3.3
   flutter:
     sdk: flutter
@@ -32,6 +33,7 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
+  json_serializable: ^3.5.1
   build_runner: ^1.0.0
   chopper_generator: ^3.0.4
   flutter_test:
