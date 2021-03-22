@@ -40,8 +40,21 @@ class CategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // context.watch<CategoryModel>();
-    return SafeArea(
-      child: _DelayedUIBuilder(context),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(
+          'Quizzler',
+          style: getAppBarHeading(),
+          textAlign: TextAlign.center,
+        ),
+        elevation: 4,
+      ),
+      body: SafeArea(
+        child: _DelayedUIBuilder(context),
+      ),
     );
   }
 
@@ -199,12 +212,27 @@ class CategoryList extends StatelessWidget {
     );
   }
 
+  /// Generates a Text style of the Montserrat type font
+  /// with a Bold weight and black colors and returns it to be added
+  /// to Text Widgets
   TextStyle getQuestionTileTextStyle(double fontSize) {
     return TextStyle(
       color: Colors.black87,
       fontWeight: FontWeight.bold,
       fontSize: fontSize,
       fontFamily: 'Montserrat',
+    );
+  }
+
+  /// Generates a Text style of the Montserrat type font
+  /// with a Bold weight and black colors and returns it to be added
+  /// to Text Widgets
+  TextStyle getAppBarHeading() {
+    return TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 24,
+      fontFamily: 'Pacifico',
     );
   }
 
