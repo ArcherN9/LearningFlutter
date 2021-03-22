@@ -1,7 +1,9 @@
-import 'package:Quizzler/RouteGenerator.dart';
+import 'package:Quizzler/Network/TokenServices/TokenService.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Quizzler/Network/QuizzlerNetwork.dart';
+import 'package:Quizzler/Network/TokenServices/TokenServiceViewModel.dart';
+import 'package:Quizzler/RouteGenerator.dart';
 
 import 'package:provider/provider.dart';
 
@@ -18,11 +20,23 @@ void main() => runApp(ProviderWidget());
 class ProviderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext build) {
-    return Provider(
-      create: (_) => CategoryService.create(QuizzlerNetwork().chopperClient),
-      dispose: (_, CategoryService categoryService) =>
-          categoryService.dispose(),
-      child: Root(),
+    return MultiProvider(
+      providers: [
+        Provider<CategoryService>(
+          create: (_) =>
+              CategoryService.create(QuizzlerNetwork().chopperClient),
+          dispose: (_, CategoryService categoryService) =>
+              categoryService.dispose(),
+        ),
+        Provider<TokenService>(
+          create: (_) => TokenService.create(QuizzlerNetwork().chopperClient),
+          dispose: (_, TokenService service) => service.dispose(),
+        )
+      ],
+      child: ChangeNotifierProvider<TokenServiceViewModel>(
+        create: (_) => TokenServiceViewModel(),
+        child: Root(),
+      ),
     );
   }
 }
