@@ -37,9 +37,6 @@ class CategoryList extends StatelessWidget {
     language: PIXABAY_LANG,
   );
 
-  // @override
-  // State<StatefulWidget> createState() => _CategoryList();
-
   @override
   Widget build(BuildContext context) {
     // context.watch<CategoryModel>();
@@ -47,15 +44,6 @@ class CategoryList extends StatelessWidget {
       child: _DelayedUIBuilder(context),
     );
   }
-// }
-
-// class _CategoryList extends State<CategoryList> {
-  // @override
-  // Widget build(BuildContext context) {
-  //   return SafeArea(
-  //     child: _DelayedUIBuilder(context),
-  //   );
-  // }
 
   FutureBuilder<Response> _DelayedUIBuilder(BuildContext context) {
     return FutureBuilder(
@@ -175,9 +163,8 @@ class CategoryList extends StatelessWidget {
     );
   }
 
-  /// Returns an empty container with a randomized color
   /// to serve as a placeholder while images are being
-
+  /// Returns an empty container with a randomized color
   /// updated.
   Container getEmptyContainer() {
     return Container(
