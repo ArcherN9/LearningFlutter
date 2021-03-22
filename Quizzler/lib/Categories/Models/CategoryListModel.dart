@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'CategoryListModel.g.dart';
@@ -30,6 +32,9 @@ class CategoryModel {
   // Category Name
   @JsonKey(required: true, name: 'name')
   String categoryName;
+
+  @JsonKey(ignore: true)
+  String categoryImageUrl = '';
 
   // The default constructor
   CategoryModel({this.categoryId, this.categoryName});

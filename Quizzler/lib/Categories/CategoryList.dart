@@ -9,7 +9,6 @@ import 'package:chopper/chopper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:pixabay_picker/pixabay_picker.dart';
-import 'package:pixabay_picker/model/pixabay_media.dart';
 
 /// A generic color pallette for the application to use
 /// wherever necessary. Identified use cases so far:
@@ -25,23 +24,38 @@ List<int> colorPalette = [
   0xFF004D40, // Teal
 ];
 
-class CategoryList extends StatefulWidget {
-  PixabayPicker pixabayPicker = PixabayPicker(
-    apiKey: '20729047-b2f81354c2f3c9f1fe5f90076',
-    language: "en",
+// Pixabay API Key
+const PIXABAY_APIKEY = '20729047-b2f81354c2f3c9f1fe5f90076';
+const PIXABAY_LANG = 'en';
+
+// class CategoryList extends StatefulWidget {
+class CategoryList extends StatelessWidget {
+  /// The Pixabay instance through the SDK | It is responsible for
+  /// communicating with the Pixabay service and retrieve images
+  final PixabayPicker pixabayPicker = PixabayPicker(
+    apiKey: PIXABAY_APIKEY,
+    language: PIXABAY_LANG,
   );
 
-  @override
-  State<StatefulWidget> createState() => _CategoryList();
-}
+  // @override
+  // State<StatefulWidget> createState() => _CategoryList();
 
-class _CategoryList extends State<CategoryList> {
   @override
   Widget build(BuildContext context) {
+    // context.watch<CategoryModel>();
     return SafeArea(
       child: _DelayedUIBuilder(context),
     );
   }
+// }
+
+// class _CategoryList extends State<CategoryList> {
+  // @override
+  // Widget build(BuildContext context) {
+  //   return SafeArea(
+  //     child: _DelayedUIBuilder(context),
+  //   );
+  // }
 
   FutureBuilder<Response> _DelayedUIBuilder(BuildContext context) {
     return FutureBuilder(
@@ -49,6 +63,7 @@ class _CategoryList extends State<CategoryList> {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
+            print('>>>> FutureBuilder\'s builder was called');
             return _buildCategoryList(
               context,
               CategoryListModel.fromJson(snapshot.data.body),
@@ -96,7 +111,7 @@ class _CategoryList extends State<CategoryList> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          getCategoryImage(categoryName: categoryModel.categoryName),
+          getCategoryImage(categoryModel: categoryModel),
           getCategoryTile(categoryModel: categoryModel),
         ],
       ),
@@ -106,47 +121,63 @@ class _CategoryList extends State<CategoryList> {
   /// Communicates with the Pixabay API service and retrieves images
   /// with the keyword categoryName (as retrieved from OpenTrivia)
   /// Uses a CachedNetworkImage plugin to display the images
-  Widget getCategoryImage({String categoryName}) {
-    String queryString = categoryName.contains(':')
-        ? categoryName.split(':')[1].trim()
-        : categoryName;
-    var pixabayFuture = widget.pixabayPicker.api.requestImagesWithKeyword(
-      keyword: queryString,
-      resultsPerPage: 35,
-    );
-
-    return FutureBuilder(
-        future: pixabayFuture,
-        builder: (buildContext, snapshot) {
+  Widget getCategoryImage({CategoryModel categoryModel}) {
+    if (categoryModel.categoryImageUrl.isEmpty) {
+      String queryString = categoryModel.categoryName.contains(':')
+          ? categoryModel.categoryName.split(':')[1].trim()
+          : categoryModel.categoryName;
+      return FutureBuilder(
+        future: pixabayPicker.api.requestImagesWithKeyword(
+          keyword: queryString,
+          resultsPerPage: 35,
+        ),
+        builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              PixabayResponse apiResponse = snapshot.data as PixabayResponse;
-              if (snapshot.hasData && apiResponse.total >= 1) {
-                return CachedNetworkImage(
-                  imageUrl: apiResponse.hits[getRandomNumber(
-                    upperLimit: apiResponse.hits.length,
-                  )]
-                      .getDownloadLink(),
-                  filterQuality: FilterQuality.medium,
-                  fit: BoxFit.fitWidth,
-                  height: 180,
-                  placeholder: (context, url) {
-                    return getEmptyContainer();
-                  },
-                );
-              } else {
-                return getEmptyContainer();
-              }
+              var response = snapshot.data;
+              print('>>> $response');
+              categoryModel.categoryImageUrl = response
+                  .hits[getRandomNumber(upperLimit: response.hits.length)]
+                  .getDownloadLink();
+
+              return getCachedNetworkImage(categoryModel: categoryModel);
+              break;
+
+            case ConnectionState.waiting:
+              return getEmptyContainer();
               break;
 
             default:
               return getEmptyContainer();
+              break;
           }
-        });
+        },
+      );
+    } else {
+      return getCachedNetworkImage(categoryModel: categoryModel);
+    }
+  }
+
+  /// A Canched Network Image builder that accepts a Category Model,
+  /// checks for the imageUrl saved and attempts to download the image.
+  /// In case the image is unavailable or while the image is loading,
+  /// Displays a standard solid color box
+  CachedNetworkImage getCachedNetworkImage({CategoryModel categoryModel}) {
+    return CachedNetworkImage(
+      imageUrl: categoryModel.categoryImageUrl,
+      filterQuality: FilterQuality.medium,
+      fit: BoxFit.fitWidth,
+      height: 180,
+      placeholder: (context, url) {
+        return getEmptyContainer();
+      },
+      errorWidget: (context, url, error) => getEmptyContainer(),
+    );
   }
 
   /// Returns an empty container with a randomized color
   /// to serve as a placeholder while images are being
+
   /// updated.
   Container getEmptyContainer() {
     return Container(
