@@ -1,5 +1,6 @@
 import 'package:Quizzler/Categories/CategoryList.dart';
 import 'package:Quizzler/Network/QuizServices/Models/QuestionModel.dart';
+import 'package:Quizzler/Quiz/QuestionsHomeViewModel.dart';
 
 import 'package:flutter/material.dart';
 
@@ -28,9 +29,18 @@ class RouteGenerator {
         if (settings.arguments != null &&
             settings.arguments is QuestionListModel) {
           return MaterialPageRoute(builder: (context) {
-            return MultiProvider(
-              providers: [],
-              child: QuestionsHome(settings.arguments as QuestionListModel),
+            // return MultiProvider(
+            //   providers: [
+            //     Provider<QuestionsHomeViewModel>(
+            //       create: (_) => QuestionsHomeViewModel(
+            //           settings.arguments as QuestionListModel),
+            //       dispose: (_, QuestionsHomeViewModel vm) => vm.dispose(),
+            //     ),
+            //   ],
+            return ChangeNotifierProvider(
+              create: (context) => QuestionsHomeViewModel(
+                  settings.arguments as QuestionListModel),
+              child: QuestionsHome(),
             );
           });
         }

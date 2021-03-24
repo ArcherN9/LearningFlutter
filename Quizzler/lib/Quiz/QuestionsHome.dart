@@ -1,38 +1,39 @@
-import 'package:Quizzler/Network/QuizServices/Models/QuestionModel.dart';
+import 'package:Quizzler/Quiz/QuestionsHomeViewModel.dart';
 import 'package:flutter/material.dart';
 
-import 'package:Quizzler/Network/TokenServices/TokenService.dart';
 import 'package:Quizzler/Widgets/QuestionTile.dart';
 import 'package:Quizzler/Widgets/AnswerTile.dart';
 import 'package:Quizzler/Widgets/DividerTile.dart';
-
 import 'package:provider/provider.dart';
 
 class QuestionsHome extends StatelessWidget {
-  QuestionListModel allQuestions;
-
-  QuestionsHome(QuestionListModel arguments, {this.allQuestions});
+  QuestionsHomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-            flex: 1,
-            child: DividerTile(
-              intNumberOfQuestions: 20,
-            )),
-        Expanded(
-          flex: 5,
-          child: TopQuestionSection(),
+    viewModel = Provider.of<QuestionsHomeViewModel>(context, listen: false);
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 1,
+              child: DividerTile(),
+            ),
+            Expanded(
+              flex: 5,
+              child: TopQuestionSection(),
+            ),
+            Expanded(
+              flex: 5,
+              child: BottomAnswerSection(),
+            ),
+          ],
         ),
-        Expanded(
-          flex: 5,
-          child: BottomAnswerSection(),
-        ),
-      ],
+      ),
     );
   }
 }
