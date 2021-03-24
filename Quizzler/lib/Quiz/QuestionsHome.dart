@@ -1,9 +1,18 @@
+import 'package:Quizzler/Network/QuizServices/Models/QuestionModel.dart';
 import 'package:flutter/material.dart';
+
+import 'package:Quizzler/Network/TokenServices/TokenService.dart';
 import 'package:Quizzler/Widgets/QuestionTile.dart';
 import 'package:Quizzler/Widgets/AnswerTile.dart';
 import 'package:Quizzler/Widgets/DividerTile.dart';
 
-class Home extends StatelessWidget {
+import 'package:provider/provider.dart';
+
+class QuestionsHome extends StatelessWidget {
+  QuestionListModel allQuestions;
+
+  QuestionsHome(QuestionListModel arguments, {this.allQuestions});
+
   @override
   Widget build(BuildContext context) {
     return Column(

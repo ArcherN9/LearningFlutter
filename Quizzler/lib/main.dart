@@ -1,3 +1,4 @@
+import 'package:Quizzler/Network/QuizServices/QuizService.dart';
 import 'package:Quizzler/Network/TokenServices/TokenService.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,8 @@ void main() => runApp(ProviderWidget());
 class ProviderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext build) {
+    /// The multi providers added here transcend Providers throughout the
+    /// application due to the positioning of this Widget | Root.
     return MultiProvider(
       providers: [
         Provider<CategoryService>(
@@ -31,7 +34,7 @@ class ProviderWidget extends StatelessWidget {
         Provider<TokenService>(
           create: (_) => TokenService.create(QuizzlerNetwork().chopperClient),
           dispose: (_, TokenService service) => service.dispose(),
-        )
+        ),
       ],
       child: ChangeNotifierProvider<TokenServiceViewModel>(
         create: (_) => TokenServiceViewModel(),
