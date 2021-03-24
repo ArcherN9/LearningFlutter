@@ -1,29 +1,21 @@
+import 'package:Quizzler/Quiz/QuestionsHomeViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class QuestionTile extends StatefulWidget {
-  // The question to be displayed to the user
-  String strQuestion;
-
-  // The Domain / category of the question
-  String strDomain;
-
-  QuestionTile.builder(this.strQuestion, this.strDomain);
-
-  @override
-  State<StatefulWidget> createState() => _QuestionTile(strQuestion, strDomain);
-}
-
-class _QuestionTile extends State<QuestionTile> {
-  // The question to be displayed to the user
-  String strQuestion;
-
-  // The Domain / category of the question
-  String strDomain;
-
-  _QuestionTile(this.strQuestion, this.strDomain);
+class QuestionTile extends StatelessWidget {
+  /// The view Model is inherited from the Questions Home widget
+  /// and holds all information that is required to manage the
+  /// states of Divider tile.
+  QuestionsHomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
+    // Retrieve the View Model from the associated Provider
+    viewModel = Provider.of<QuestionsHomeViewModel>(
+      context,
+      listen: true,
+    );
+
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
@@ -34,7 +26,8 @@ class _QuestionTile extends State<QuestionTile> {
               child: Padding(
                 padding: getQuestionTileMargins(),
                 child: Text(
-                  this.strQuestion,
+                  viewModel.allQuestions.questions[viewModel.getCurrentQuestion]
+                      .question,
                   style: getQuestionTileTextStyle(22),
                   softWrap: true,
                   textAlign: TextAlign.left,
@@ -47,7 +40,8 @@ class _QuestionTile extends State<QuestionTile> {
             child: Padding(
               padding: getQuestionTileMargins(),
               child: Text(
-                this.strDomain,
+                viewModel.allQuestions.questions[viewModel.getCurrentQuestion]
+                    .categoryName,
                 style: getQuestionTileTextStyle(12),
                 softWrap: true,
                 textAlign: TextAlign.left,
@@ -63,6 +57,8 @@ class _QuestionTile extends State<QuestionTile> {
     return EdgeInsets.only(left: 25, right: 25);
   }
 
+  /// Creates a text style to apply with a dark hue of black and
+  /// Montesserat font face and returns it
   TextStyle getQuestionTileTextStyle(double fontSize) {
     return TextStyle(
       color: Colors.black87,

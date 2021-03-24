@@ -24,15 +24,8 @@ class DividerTile extends StatefulWidget {
   /// Color to set on the Divider if the question has been attempted
   final int COLOR_ATTEMPTED = 0xFF000000;
 
-  /// A reference to the StatefulWidget's state class
-  /// This is used to inform the class to modify the state
-  _DividerTile _dividerTile;
-
   @override
-  _DividerTile createState() {
-    _dividerTile = _DividerTile();
-    return _dividerTile;
-  }
+  _DividerTile createState() => _DividerTile();
 }
 
 class _DividerTile extends State<DividerTile> {
