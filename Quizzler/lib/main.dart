@@ -1,9 +1,8 @@
-import 'package:Quizzler/Network/QuizServices/QuizService.dart';
 import 'package:Quizzler/Network/TokenServices/TokenService.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Quizzler/Network/QuizzlerNetwork.dart';
-import 'package:Quizzler/Network/TokenServices/TokenServiceViewModel.dart';
+import 'package:Quizzler/Network/TokenServices/TokenViewModel.dart';
 import 'package:Quizzler/RouteGenerator.dart';
 
 import 'package:provider/provider.dart';
@@ -35,11 +34,12 @@ class ProviderWidget extends StatelessWidget {
           create: (_) => TokenService.create(QuizzlerNetwork().chopperClient),
           dispose: (_, TokenService service) => service.dispose(),
         ),
+        Provider<TokenViewModel>(
+          create: (_) => TokenViewModel(),
+          dispose: (_, TokenViewModel vm) => vm.dispose(),
+        ),
       ],
-      child: ChangeNotifierProvider<TokenServiceViewModel>(
-        create: (_) => TokenServiceViewModel(),
-        child: Root(),
-      ),
+      child: Root(),
     );
   }
 }

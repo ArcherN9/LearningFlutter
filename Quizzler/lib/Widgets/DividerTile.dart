@@ -2,7 +2,7 @@ import 'package:Quizzler/Quiz/QuestionsHomeViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DividerTile extends StatefulWidget {
+class DividerTile extends StatelessWidget {
   /// The view Model is inherited from the Questions Home widget
   /// and holds all information that is required to manage the
   /// states of Divider tile.
@@ -24,11 +24,6 @@ class DividerTile extends StatefulWidget {
   /// Color to set on the Divider if the question has been attempted
   final int COLOR_ATTEMPTED = 0xFF000000;
 
-  @override
-  _DividerTile createState() => _DividerTile();
-}
-
-class _DividerTile extends State<DividerTile> {
   /// A list of colors that is used to describe dividers
   /// colors against question numbers
   List<int> lsColorList;
@@ -36,21 +31,20 @@ class _DividerTile extends State<DividerTile> {
   @override
   Widget build(BuildContext context) {
     // Retrieve the View Model from the associated Provider
-    widget.viewModel = Provider.of<QuestionsHomeViewModel>(
+    viewModel = Provider.of<QuestionsHomeViewModel>(
       context,
       listen: true,
     );
 
     // Update the number of questions in the current quiz
-    widget.intNumberOfQuestions =
-        widget.viewModel.allQuestions.questions.length;
+    intNumberOfQuestions = viewModel.allQuestions.questions.length;
 
     // Create a base filled color list of UNATTEMPTED state to begin with
-    lsColorList = List<int>.generate(widget.intNumberOfQuestions, (index) {
-      if (index < widget.viewModel.getCurrentQuestion) {
-        return widget.COLOR_ATTEMPTED;
+    lsColorList = List<int>.generate(intNumberOfQuestions, (index) {
+      if (index < viewModel.getCurrentQuestion) {
+        return COLOR_ATTEMPTED;
       } else {
-        return widget.COLOR_UNATTEMPTED;
+        return COLOR_UNATTEMPTED;
       }
     });
 

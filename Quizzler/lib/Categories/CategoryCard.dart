@@ -23,6 +23,7 @@ class CategoryCard extends StatelessWidget {
       borderOnForeground: true,
       shape: getRoundedRectangle(radius: 15),
       child: FlatButton(
+        shape: getRoundedRectangle(radius: 15),
         padding: EdgeInsets.zero,
         onPressed: () async {
           viewModel.onCardPressed().then((questions) {
@@ -112,6 +113,16 @@ class CategoryCard extends StatelessWidget {
   CachedNetworkImage getCachedNetworkImage() {
     return CachedNetworkImage(
       imageUrl: viewModel.categoryModel.categoryImageUrl,
+      imageBuilder: (context, imageProvider) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: imageProvider,
+          ),
+        ),
+      ),
       filterQuality: FilterQuality.medium,
       fit: BoxFit.fitWidth,
       height: 180,
@@ -127,7 +138,11 @@ class CategoryCard extends StatelessWidget {
   /// updated.
   Container getEmptyContainer() {
     return Container(
-      color: Color(viewModel.getRandomColor()),
+      decoration: BoxDecoration(
+        color: Color(viewModel.getRandomColor()),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+      ),
       height: 180,
     );
   }

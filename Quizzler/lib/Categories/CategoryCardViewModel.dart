@@ -4,6 +4,7 @@ import 'package:Quizzler/Categories/CategoryList.dart';
 import 'package:Quizzler/Categories/Models/CategoryListModel.dart';
 import 'package:Quizzler/Network/QuizServices/Models/QuestionModel.dart';
 import 'package:Quizzler/Network/QuizServices/QuizService.dart';
+import 'package:Quizzler/Network/TokenServices/TokenViewModel.dart';
 import 'package:chopper/chopper.dart';
 
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class CategoryCardViewModel {
   CategoryModel categoryModel;
   QuizService quizService;
   PixabayPicker pixabayPicker;
+  TokenViewModel tokenViewModel;
 
   CategoryCardViewModel(
     this.categoryModel,
@@ -23,6 +25,7 @@ class CategoryCardViewModel {
   ) {
     pixabayPicker = Provider.of<PixabayPicker>(context);
     quizService = Provider.of<QuizService>(context);
+    tokenViewModel = Provider.of<TokenViewModel>(context);
   }
 
   Future<QuestionListModel> onCardPressed() async {
@@ -31,6 +34,7 @@ class CategoryCardViewModel {
       quizCategoryId: this.categoryModel.categoryId,
       difficultyLevel: 'easy',
       responseType: 'multiple',
+      token: tokenViewModel.getToken,
     );
     return QuestionListModel.fromJson(response.body);
   }

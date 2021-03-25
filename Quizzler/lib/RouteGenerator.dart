@@ -10,6 +10,7 @@ import 'Quiz/QuestionsHome.dart';
 
 const ROUTE_HOME = '/Categories';
 const ROUTE_QUESTIONS = '/CategoryQuestions';
+const ROUTE_RESULT = '/QuizResult';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

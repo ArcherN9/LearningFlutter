@@ -1,4 +1,5 @@
-import "dart:async";
+import 'package:Quizzler/Network/CategoryService.dart';
+import 'package:Quizzler/Network/QuizServices/QuizService.dart';
 import 'package:chopper/chopper.dart';
 import 'package:Quizzler/Network/TokenService.dart';
 
@@ -22,6 +23,8 @@ class QuizzlerNetwork {
       services: [
         // inject the generated service
         TokenService.create(),
+        CategoryService.create(),
+        QuizService.create(),
       ],
       converter: JsonConverter(),
     );

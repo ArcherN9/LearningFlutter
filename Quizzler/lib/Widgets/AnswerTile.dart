@@ -1,100 +1,148 @@
+import 'package:Quizzler/Quiz/QuestionsHomeViewModel.dart';
+import 'package:Quizzler/RouteGenerator.dart';
+
 import 'package:flutter/material.dart';
 
-class AnswerTile extends StatefulWidget {
-  // The String that is displayed on the Buttons
-  List<String> lsAnswerTitle;
+import 'package:provider/provider.dart';
 
-  AnswerTile.Builder(this.lsAnswerTitle) {}
+const Color COLOR_INCORRECT = Color(0xFFB71C1C);
+const Color COLOR_CORRECT = Color(0xFF1B5E20);
+const Color COLOR_UNATTEMPTED = Colors.black45;
 
-  @override
-  _AnswerTile createState() {
-    return _AnswerTile(lsAnswerTitle);
-  }
-}
-
-class _AnswerTile extends State<AnswerTile> {
-  // A list of possible options for the user to select from
-  List<String> lsAnswerTitle;
-
-  _AnswerTile(this.lsAnswerTitle);
+class AnswersTile extends StatelessWidget {
+  /// The view Model is inherited from the Questions Home widget
+  /// and holds all information that is required to manage the
+  /// states of Divider tile.
+  QuestionsHomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
+    // Retrieve the View Model from the associated Provider
+    viewModel = Provider.of<QuestionsHomeViewModel>(
+      context,
+      listen: true,
+    );
+
+    /// When the current question number exceeds the number
+    /// of questions available on the quiz,
+    /// This means the user has been through the entire quiz
+    /// Here, we display the score screen
+    // Navigator.of(context).pushNamed(ROUTE_RESULT);
+
     // A List of widgets that contains AnswerButton widget
     // and populated on the column
-    List<Widget> lsAnswerOptions = [];
+    List<Widget> answerWidgets = [];
 
-    lsAnswerTitle.forEach((answerValue) => {
-          lsAnswerOptions.add(
-              AnswerButton(lsAnswerTitle.indexOf(answerValue), answerValue))
+    // A list of possible options for the user to select from
+    List<String> answers = viewModel.getQuestionResponses();
+    answers.forEach((answerValue) => {
+          answerWidgets.add(
+            AnswerButton(
+              answers.indexOf(answerValue),
+              answerValue,
+            ),
+          )
         });
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: lsAnswerOptions,
+    return Scaffold(
+      backgroundColor: Colors.black54,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: answerWidgets,
+      ),
     );
   }
 }
 
 class AnswerButton extends StatelessWidget {
+  /// The view Model is inherited from the Questions Home widget
+  /// and holds all information that is required to manage the
+  /// states of Divider tile.
+  QuestionsHomeViewModel viewModel;
+
   // The string title of the answer option that goes on this particular
   // Answer Button
-  String strAnswerTitle = '';
+  String answer = '';
 
   // This specifies the number at which this answer shows up on the
   // column list
   int optionNumber;
 
-  AnswerButton(this.optionNumber, this.strAnswerTitle);
+  AnswerButton(this.optionNumber, this.answer);
 
   @override
   Widget build(BuildContext context) {
+    // Retrieve the View Model from the associated Provider
+    viewModel = Provider.of<QuestionsHomeViewModel>(
+      context,
+      listen: true,
+    );
+
     return Padding(
-      padding: EdgeInsets.only(left: 25, right: 25),
-      child: FlatButton(
-        color: Colors.black45,
-        child: Padding(
-          padding: EdgeInsets.only(top: 20, bottom: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(right: 20),
-                child: Text(
-                  getAlphabetsInLieuOfNumbers(optionNumber),
-                  textAlign: TextAlign.left,
-                  style: getResponseTextStyle(),
+      padding: EdgeInsets.only(left: 15, right: 15),
+      child: Card(
+        elevation: 4.0,
+        shape: getRoundedRectangle(radius: 15),
+        color: getAnswerTileColor(answer),
+        child: FlatButton(
+          shape: getRoundedRectangle(radius: 15),
+          child: Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Text(
+                    getAlphabetsInLieuOfNumbers(optionNumber),
+                    textAlign: TextAlign.left,
+                    style: getResponseTextStyle(),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 20),
-                child: Text(
-                  strAnswerTitle,
-                  textAlign: TextAlign.left,
-                  style: getResponseTextStyle(),
+                Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Text(
+                    answer,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: getResponseTextStyle(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          onPressed: () {
+            viewModel.onResponseSelected(answer);
+          },
         ),
-        onPressed: () {
-          print('Button Pressed');
-        },
       ),
     );
   }
 
-  /**
-    * Creates and returns a Text Style to be applied throughout
-    * the answer tiles
-    */
+  Color getAnswerTileColor(String answer) {
+    if (viewModel.getSelectedAnswer == null ||
+        (viewModel.getSelectedAnswer != answer &&
+            answer != viewModel.getCurrentQuestionAnswer())) {
+      return COLOR_UNATTEMPTED;
+    } else if (answer == viewModel.getCurrentQuestionAnswer()) {
+      return COLOR_CORRECT;
+    } else {
+      return COLOR_INCORRECT;
+    }
+  }
+
+  ///
+  /// Creates and returns a Text Style to be applied throughout
+  /// the answer tiles
+  ///
   TextStyle getResponseTextStyle() {
     return TextStyle(
       color: Colors.white,
       fontFamily: 'Montserrat',
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: FontWeight.bold,
     );
   }
@@ -113,6 +161,20 @@ class AnswerButton extends StatelessWidget {
         return 'c.';
       case 3:
         return 'd.';
+      case 4:
+        return 'e.';
+      case 5:
+        return 'f.';
     }
+  }
+
+  /// Generates a Rounded Rectangle with a defined radius
+  /// and returns to the caller
+  RoundedRectangleBorder getRoundedRectangle({double radius}) {
+    return RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(radius),
+      ),
+    );
   }
 }

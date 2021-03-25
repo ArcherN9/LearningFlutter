@@ -29,28 +29,11 @@ class QuestionsHome extends StatelessWidget {
             ),
             Expanded(
               flex: 5,
-              child: BottomAnswerSection(),
+              child: AnswersTile(),
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class BottomAnswerSection extends StatelessWidget {
-  // List<String> lsResponseOptions = List.empty(growable: true);
-  final List<String> lsResponseOptions = [
-    'Accept',
-    'Deny',
-    'Third Option',
-    'Fourth Option'
-  ];
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black54,
-      child: AnswerTile.Builder(lsResponseOptions),
     );
   }
 }

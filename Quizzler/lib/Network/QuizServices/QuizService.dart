@@ -11,10 +11,10 @@ abstract class QuizService extends ChopperService {
   static QuizService create([ChopperClient client]) => _$QuizService(client);
 
   @Get()
-  Future<Response> getQuiz({
-    @Query('amount') int quizSize,
-    @Query('category') int quizCategoryId,
-    @Query('difficulty') String difficultyLevel,
-    @Query('type') String responseType,
-  });
+  Future<Response> getQuiz(
+      {@Query('amount') int quizSize,
+      @Query('category') int quizCategoryId,
+      @Query('difficulty') String difficultyLevel,
+      @Query('type') String responseType,
+      @Query('token') String token});
 }

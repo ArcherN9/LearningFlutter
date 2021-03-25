@@ -2,7 +2,7 @@ import 'package:Quizzler/Categories/CategoryCard.dart';
 import 'package:Quizzler/Categories/CategoryCardViewModel.dart';
 import 'package:Quizzler/Network/QuizServices/QuizService.dart';
 import 'package:Quizzler/Network/QuizzlerNetwork.dart';
-import 'package:Quizzler/Network/TokenServices/TokenServiceViewModel.dart';
+import 'package:Quizzler/Network/TokenServices/TokenViewModel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:Quizzler/Categories/Models/CategoryListModel.dart';
@@ -43,7 +43,7 @@ class CategoryList extends StatelessWidget {
     /// beginning. This is done so that a token is available for use
     /// as and when the user navigates from Category list
     /// to the questions list.
-    Provider.of<TokenServiceViewModel>(context, listen: false)
+    Provider.of<TokenViewModel>(context, listen: false)
         .updateQuizToken(context);
 
     return Scaffold(
