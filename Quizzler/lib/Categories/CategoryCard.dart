@@ -25,7 +25,7 @@ class CategoryCard extends StatelessWidget {
       child: FlatButton(
         shape: getRoundedRectangle(radius: 15),
         padding: EdgeInsets.zero,
-        onPressed: () async {
+        onPressed: () {
           viewModel.onCardPressed().then((questions) {
             Navigator.of(context).pushNamed(
               ROUTE_QUESTIONS,

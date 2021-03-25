@@ -1,14 +1,14 @@
 import 'package:Quizzler/Network/CategoryService.dart';
 import 'package:Quizzler/Network/QuizServices/QuizService.dart';
+import 'package:Quizzler/Network/TokenServices/TokenService.dart';
 import 'package:chopper/chopper.dart';
-import 'package:Quizzler/Network/TokenService.dart';
+
+// The Quizzler OpenTrivia API Host
+const String OPENTRIVIA_HOST = 'https://opentdb.com';
 
 class QuizzlerNetwork {
   // QuizzlerNetwork class is a singleton class
   static QuizzlerNetwork _instance;
-
-  // The Quizzler OpenTrivia API Host
-  static String OPENTRIVIA_HOST = 'https://opentdb.com';
 
   // The chopperClient that is manufactured by the QuizzlerNetwork
   // service

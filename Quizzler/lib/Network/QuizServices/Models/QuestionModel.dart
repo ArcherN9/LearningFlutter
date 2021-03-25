@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'QuestionModel.g.dart';
@@ -45,13 +48,23 @@ class QuestionModel {
   List<String> responseOptions;
 
   QuestionModel({
-    this.categoryName,
-    this.responseType,
-    this.difficultyLevel,
-    this.question,
-    this.correctAnswer,
-    this.responseOptions,
-  });
+    String categoryName,
+    String responseType,
+    String difficultyLevel,
+    String question,
+    String correctAnswer,
+    List<String> responseOptions,
+  }) {
+    this.categoryName = utf8.decode(base64.decode(categoryName));
+    this.responseType = utf8.decode(base64.decode(responseType));
+    this.difficultyLevel = utf8.decode(base64.decode(difficultyLevel));
+    this.question = utf8.decode(base64.decode(question));
+    this.correctAnswer = utf8.decode(base64.decode(correctAnswer));
+    this.responseOptions = List<String>.empty(growable: true);
+    responseOptions.forEach((value) {
+      this.responseOptions.add(utf8.decode(base64.decode(value)));
+    });
+  }
 
   factory QuestionModel.fromJson(Map<String, dynamic> json) =>
       _$QuestionModelFromJson(json);

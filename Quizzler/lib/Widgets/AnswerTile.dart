@@ -107,6 +107,7 @@ class AnswerButton extends StatelessWidget {
                     answer,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
+                    softWrap: true,
                     textAlign: TextAlign.left,
                     style: getResponseTextStyle(),
                   ),
@@ -115,7 +116,9 @@ class AnswerButton extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            viewModel.onResponseSelected(answer);
+            if (viewModel.getSelectedAnswer == null) {
+              viewModel.onResponseSelected(answer);
+            }
           },
         ),
       ),
@@ -147,10 +150,10 @@ class AnswerButton extends StatelessWidget {
     );
   }
 
-  /**
-    * Responsible for accepting numeric digits and responds with
-    * their numeric position
-    */
+  ///
+  /// Responsible for accepting numeric digits and responds with
+  /// their numeric position
+  ///
   String getAlphabetsInLieuOfNumbers(int OptionNumber) {
     switch (OptionNumber) {
       case 0:

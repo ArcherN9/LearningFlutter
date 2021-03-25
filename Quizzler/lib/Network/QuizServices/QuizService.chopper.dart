@@ -22,14 +22,16 @@ class _$QuizService extends QuizService {
       int quizCategoryId,
       String difficultyLevel,
       String responseType,
-      String token}) {
+      String token,
+      String encoding}) {
     final $url = '/api.php';
     final $params = <String, dynamic>{
       'amount': quizSize,
       'category': quizCategoryId,
       'difficulty': difficultyLevel,
       'type': responseType,
-      'token': token
+      'token': token,
+      'encode': encoding
     };
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);

@@ -16,5 +16,6 @@ abstract class QuizService extends ChopperService {
       @Query('category') int quizCategoryId,
       @Query('difficulty') String difficultyLevel,
       @Query('type') String responseType,
-      @Query('token') String token});
+      @Query('token') String token,
+      @Query('encode') String encoding});
 }

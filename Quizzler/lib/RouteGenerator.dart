@@ -30,14 +30,6 @@ class RouteGenerator {
         if (settings.arguments != null &&
             settings.arguments is QuestionListModel) {
           return MaterialPageRoute(builder: (context) {
-            // return MultiProvider(
-            //   providers: [
-            //     Provider<QuestionsHomeViewModel>(
-            //       create: (_) => QuestionsHomeViewModel(
-            //           settings.arguments as QuestionListModel),
-            //       dispose: (_, QuestionsHomeViewModel vm) => vm.dispose(),
-            //     ),
-            //   ],
             return ChangeNotifierProvider(
               create: (context) => QuestionsHomeViewModel(
                   settings.arguments as QuestionListModel),

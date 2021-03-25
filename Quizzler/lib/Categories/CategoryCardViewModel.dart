@@ -35,6 +35,7 @@ class CategoryCardViewModel {
       difficultyLevel: 'easy',
       responseType: 'multiple',
       token: tokenViewModel.getToken,
+      encoding: 'base64',
     );
     return QuestionListModel.fromJson(response.body);
   }
