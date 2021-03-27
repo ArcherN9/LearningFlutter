@@ -1,12 +1,12 @@
 import 'package:Quizzler/Quiz/QuestionsHomeViewModel.dart';
-import 'package:Quizzler/RouteGenerator.dart';
+import 'package:Quizzler/Widgets/ProgressBar.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
 const Color COLOR_INCORRECT = Color(0xFFB71C1C);
-const Color COLOR_CORRECT = Color(0xFF1B5E20);
+const Color COLOR_CORRECT = Color(0xFF2E7D32);
 const Color COLOR_UNATTEMPTED = Colors.black45;
 
 class AnswersTile extends StatelessWidget {
@@ -79,49 +79,54 @@ class AnswerButton extends StatelessWidget {
       listen: true,
     );
 
-    return Padding(
-      padding: EdgeInsets.only(left: 15, right: 15),
-      child: Card(
-        elevation: 4.0,
-        shape: getRoundedRectangle(radius: 15),
-        color: getAnswerTileColor(answer),
-        child: FlatButton(
-          shape: getRoundedRectangle(radius: 15),
-          child: Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: Text(
-                    getAlphabetsInLieuOfNumbers(optionNumber),
-                    textAlign: TextAlign.left,
-                    style: getResponseTextStyle(),
-                  ),
+    return Card(
+      margin: EdgeInsets.only(left: 15, right: 15),
+      elevation: 4.0,
+      shape: getRoundedRectangle(radius: 15),
+      color: getAnswerTileColor(answer),
+      child: Stack(
+          overflow: Overflow.clip,
+          alignment: Alignment.centerLeft,
+          children: [
+            ProgressBar(answer: answer),
+            FlatButton(
+              shape: getRoundedRectangle(radius: 15),
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Text(
+                        getAlphabetsInLieuOfNumbers(optionNumber),
+                        textAlign: TextAlign.left,
+                        style: getResponseTextStyle(),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Text(
+                        answer,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                        textAlign: TextAlign.left,
+                        style: getResponseTextStyle(),
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: Text(
-                    answer,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: true,
-                    textAlign: TextAlign.left,
-                    style: getResponseTextStyle(),
-                  ),
-                ),
-              ],
+              ),
+              onPressed: () {
+                if (viewModel.getSelectedAnswer == null) {
+                  viewModel.onResponseSelected(answer);
+                }
+              },
             ),
-          ),
-          onPressed: () {
-            if (viewModel.getSelectedAnswer == null) {
-              viewModel.onResponseSelected(answer);
-            }
-          },
-        ),
-      ),
+          ]),
     );
   }
 
