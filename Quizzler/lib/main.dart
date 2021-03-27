@@ -48,7 +48,7 @@ class Root extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/Categories',
+      initialRoute: ROUTE_HOME,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

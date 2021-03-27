@@ -126,12 +126,27 @@ class CategoryListBuilder extends StatelessWidget {
     return ListView.builder(
       itemCount: categoryList.triviaCategories.length,
       itemBuilder: (context, index) {
-        return Provider(
-          create: (_) => CategoryCardViewModel(
-            categoryList.triviaCategories[index],
-            context,
-          ),
-          dispose: (_, viewModel) => viewModel.dispose(),
+        return MultiProvider(
+          providers: [
+            Provider<CategoryCardViewModel>(
+              create: (_) => CategoryCardViewModel(
+                categoryList.triviaCategories[index],
+                context,
+              ),
+              dispose: (_, viewModel) => viewModel.dispose(),
+            ),
+            Provider<QuizService>(
+              create: (_) =>
+                  QuizService.create(QuizzlerNetwork().chopperClient),
+              dispose: (_, QuizService service) => service.dispose(),
+            ),
+            Provider<PixabayPicker>(
+              create: (_) => PixabayPicker(
+                apiKey: PIXABAY_APIKEY,
+                language: PIXABAY_LANG,
+              ),
+            ),
+          ],
           child: CategoryCard(),
         );
       },

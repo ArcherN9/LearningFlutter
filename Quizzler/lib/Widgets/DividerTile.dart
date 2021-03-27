@@ -13,20 +13,12 @@ class DividerTile extends StatelessWidget {
   /// This value is received from upstream
   int intNumberOfQuestions;
 
-  /// Color to set on the divider if the answer was incorrect
-  /// final int COLOR_FAIL = 0xFFf44336;
-  /// Color to set on the Divider if the answer was correct
-  /// final int COLOR_PASS = 0xFF4caf50;
   /// Color to set on the Divider if the question has not been
   /// Attempted yet
-  final int COLOR_UNATTEMPTED = 0xFF6d6d6d;
+  final Color COLOR_UNATTEMPTED = Color(0xFF6d6d6d);
 
   /// Color to set on the Divider if the question has been attempted
-  final int COLOR_ATTEMPTED = 0xFF000000;
-
-  /// A list of colors that is used to describe dividers
-  /// colors against question numbers
-  List<int> lsColorList;
+  final Color COLOR_ATTEMPTED = Color(0xFF000000);
 
   @override
   Widget build(BuildContext context) {
@@ -39,49 +31,15 @@ class DividerTile extends StatelessWidget {
     // Update the number of questions in the current quiz
     intNumberOfQuestions = viewModel.allQuestions.questions.length;
 
-    // Create a base filled color list of UNATTEMPTED state to begin with
-    lsColorList = List<int>.generate(intNumberOfQuestions, (index) {
-      if (index < viewModel.getCurrentQuestion) {
-        return COLOR_ATTEMPTED;
-      } else {
-        return COLOR_UNATTEMPTED;
-      }
-    });
-
-    return Padding(
-      padding: EdgeInsets.only(left: 15, right: 15),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: getExpandedDividerList(),
-      ),
-    );
-  }
-
-  /// A method that iterates from zero to the number of questions
-  /// Available under this quiz and returns A list that contains
-  /// Dividers equal to the number of questions
-  List<Widget> getExpandedDividerList() {
-    // Create a temporary Widget list that is created from
-    // empty container with a growable limit
-    List<Widget> lsWidgetList = List<Widget>.empty(growable: true);
-    // Enumerate from zero to number of questions and apply an
-    // individual divider at each position
-    lsColorList.forEach((color) {
-      lsWidgetList.add(getDivider(color));
-    });
-
-    // Return the temporaruy widget list for painting
-    return lsWidgetList;
-  }
-
-  // Generates an individual divider and returns to the caller
-  Widget getDivider(int intColor) {
-    return Expanded(
-      flex: 1,
-      child: Divider(
-        thickness: 5,
-        color: Color(intColor),
+    return Container(
+      alignment: Alignment.center,
+      child: LinearProgressIndicator(
+        minHeight: 5,
+        value: viewModel.getCurrentQuestion == 0
+            ? 0
+            : viewModel.getCurrentQuestion / intNumberOfQuestions,
+        backgroundColor: COLOR_UNATTEMPTED,
+        valueColor: AlwaysStoppedAnimation<Color>(COLOR_ATTEMPTED),
       ),
     );
   }
