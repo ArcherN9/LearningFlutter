@@ -107,7 +107,6 @@ class QuestionsHomeViewModel extends ChangeNotifier {
       _selectedAnswer = null;
       setCurrentQuestion = getCurrentQuestion + 1;
     }
-    // });
   }
 
   /// Returns the correct response

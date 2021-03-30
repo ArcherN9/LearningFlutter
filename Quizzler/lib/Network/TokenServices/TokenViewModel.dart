@@ -1,5 +1,6 @@
 import 'package:Quizzler/Network/TokenServices/Models/TokenModel.dart';
 import 'package:Quizzler/Network/TokenServices/TokenService.dart';
+import 'package:Quizzler/SharedPreferences/FlutterPreferences.dart';
 
 import 'package:chopper/chopper.dart';
 
@@ -16,6 +17,7 @@ class TokenViewModel {
 
   set setToken(TokenModel model) {
     this._tokenModel = model;
+    FlutterPreferences().storeSessionToken(model.token);
   }
 
   void dispose() {
