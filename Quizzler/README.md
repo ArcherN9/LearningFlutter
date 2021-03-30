@@ -25,4 +25,9 @@ with images available on [Pixabay](https://pixabay.com/).
 5. [Json Serializable](https://pub.dev/packages/json_serializable)
 6. [Provider](https://pub.dev/packages/provider)
 
+## Credits
+
+The application's UI is inspired by [acerkiw77](https://dribbble.com/acerkiw77)
+Quiz App Design on [Dribble](https://dribbble.com/shots/9777333-Quiz-App)
+
 ## License: MIT
