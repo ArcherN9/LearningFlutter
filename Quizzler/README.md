@@ -14,7 +14,7 @@ with images available on [Pixabay](https://pixabay.com/).
 
 ## Screenshots
 
-<img src="https://github.com/ArcherN9/LearningFlutter/raw/master/Quizzler/images/Picture%201.png" alt="Application Screenshot" width="900" height="316" border="10" />
+<img src="https://github.com/ArcherN9/LearningFlutter/raw/master/Quizzler/images/Picture%201.png" alt="Application Screenshot" width="1000" height="416" border="10" />
 
 ## Dependencies Used
 
